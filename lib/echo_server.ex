@@ -10,7 +10,10 @@ defmodule EchoServer do
   defp accept(listen_socket) do
     {:ok, socket} = :gen_tcp.accept(listen_socket)
     Logger.info "A connection accepted"
-    echo(socket)
+    spawn_link(fn ->
+      echo(socket)
+    end)
+    accept(listen_socket)
   end
 
   defp echo(socket) do
