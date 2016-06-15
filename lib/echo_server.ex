@@ -8,7 +8,13 @@ defmodule EchoServer do
   end
 
   defp accept(listen_socket) do
-    :gen_tcp.accept(listen_socket)
+    {:ok, socket} = :gen_tcp.accept(listen_socket)
     Logger.info "A connection accepted"
+    read_line(socket)
+  end
+
+  defp read_line(socket) do
+    {:ok, line} = :gen_tcp.recv(socket, 0)
+    Logger.debug "#{inspect socket} receives #{line}"
   end
 end
