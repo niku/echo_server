@@ -1,6 +1,10 @@
 defmodule EchoServer.Worker do
   require Logger
 
+  def start_link(port) do
+    listen(port)
+  end
+
   def listen(port) do
     {:ok, listen_socket} = :gen_tcp.listen(port, [:binary, packet: :line, active: false, reuseaddr: true])
     Logger.info "Listen connection on port #{port}"
