@@ -16,5 +16,11 @@ defmodule EchoServer do
   defp read_line(socket) do
     {:ok, line} = :gen_tcp.recv(socket, 0)
     Logger.debug "#{inspect socket} receives #{line}"
+    write_line(socket, line)
+  end
+
+  defp write_line(socket, line) do
+    :gen_tcp.send(socket, line)
+    Logger.debug "#{inspect socket} sends #{line}"
   end
 end
